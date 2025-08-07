@@ -4,6 +4,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { CiLogout } from "react-icons/ci";
 import toast from "react-hot-toast";
+import { NewBudgetForm } from "@/components/NewbudgetForm";
 
 export const Route = createFileRoute("/NewUserpage")({
   component: WelcomePage,
@@ -45,10 +46,12 @@ export default function WelcomePage() {
           Start Now
         </Button>
       </div>
-
-      {/* <div className="h-screen flex items-center justify-center">
-        Centered Content
-      </div> */}
+      <div className="outline-2 outline-offset-0 ... flex items-center justify-center gap-5 flex-col flex-wrap">
+        <div className="flex  items-center justify-center flex-col flex-wrap gap-10">
+          Plan Your Budget
+        </div>
+        <NewBudgetForm />
+      </div>
     </>
   );
 }
