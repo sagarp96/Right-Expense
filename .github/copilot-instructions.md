@@ -64,9 +64,8 @@ Example current form structure:
 
 ### Environment Variables
 
-- Store in `.env.local` (gitignored)
-- Supabase config: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- All public vars prefixed with `NEXT_PUBLIC_` despite using Vite
+- Supabase config: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
+- All public vars prefixed with `VITE_` for Vite framework
 
 ### Key Configuration Files
 
