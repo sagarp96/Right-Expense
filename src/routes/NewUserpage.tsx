@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/useAuth";
+import { CiLogout } from "react-icons/ci";
 import toast from "react-hot-toast";
 
 export const Route = createFileRoute("/NewUserpage")({
@@ -32,14 +33,22 @@ export default function WelcomePage() {
 
   return (
     <>
-      <h1 className="font-heading text-foreground text-4xl">
-        Start your Budget
-      </h1>
-      <div className="flex flex-wrap items-center gap-2 md:flex-row ">
-        <Button className="font-body text-xl" onClick={handleLogout}>
-          Logout
+      <div className="sticky flex place-content-end">
+        <Button size="sm" onClick={handleLogout} className="rounded-full">
+          <CiLogout /> Logout
         </Button>
-      </div>{" "}
+      </div>
+
+      <div className="h-screen flex  items-center justify-center flex-col flex-wrap gap-10">
+        Start Your Budget
+        <Button size="lg" className="rounded-full">
+          Start Now
+        </Button>
+      </div>
+
+      {/* <div className="h-screen flex items-center justify-center">
+        Centered Content
+      </div> */}
     </>
   );
 }
