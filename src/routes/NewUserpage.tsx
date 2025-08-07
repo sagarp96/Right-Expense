@@ -16,7 +16,7 @@ export default function WelcomePage() {
     try {
       await signOut();
       toast.success("Successfully logged out!");
-      navigate({ to: "/loginform" });
+      navigate({ to: "/" });
     } catch (error) {
       toast.error("Error logging out");
     }
@@ -26,7 +26,7 @@ export default function WelcomePage() {
   }
   if (!user) {
     // Redirect to login if not authenticated
-    navigate({ to: "/loginform" });
+    navigate({ to: "/" });
     return null;
   }
 
