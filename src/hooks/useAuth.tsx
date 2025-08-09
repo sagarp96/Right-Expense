@@ -10,9 +10,9 @@ export function useAuth() {
   useEffect(() => {
     // Get initial session
     supabase.auth.getSession().then(({ data: { session }, error }) => {
-      // console.log("🔍 Initial session check:", { session, error });
-      // console.log("📊 Session exists:", !!session);
-      // console.log("👤 User exists:", !!session?.user);
+      console.log("🔍 Initial session check:", { session, error });
+      console.log("📊 Session exists:", !!session);
+      console.log("👤 User exists:", !!session?.user);
 
       if (error) {
         console.error("❌ Session error:", error);

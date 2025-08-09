@@ -2,27 +2,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/useAuth";
-import { CiLogout } from "react-icons/ci";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import { NewBudgetForm } from "@/components/NewbudgetForm";
-
+import LogoutBTN from "@/components/ui/Logout";
 export const Route = createFileRoute("/NewUserpage")({
   component: WelcomePage,
 });
 
 export default function WelcomePage() {
   const navigate = useNavigate();
-  const { user, signOut, loading } = useAuth();
+  const { user, loading } = useAuth();
 
-  const handleLogout = async () => {
-    try {
-      await signOut();
-      toast.success("Successfully logged out!");
-      navigate({ to: "/" });
-    } catch (error) {
-      toast.error("Error logging out");
-    }
-  };
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -34,12 +24,7 @@ export default function WelcomePage() {
 
   return (
     <>
-      <div className="sticky flex place-content-end">
-        <Button size="sm" onClick={handleLogout} className="rounded-full">
-          <CiLogout /> Logout
-        </Button>
-      </div>
-
+      <LogoutBTN />
       <div className="h-screen flex  items-center justify-center flex-col flex-wrap gap-10">
         Start Your Budget
         <Button size="lg" className="rounded-full">

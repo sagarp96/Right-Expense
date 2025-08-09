@@ -13,6 +13,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginformRouteImport } from './routes/loginform'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as NewUserpageRouteImport } from './routes/NewUserpage'
+import { Route as BudgetDashboardRouteImport } from './routes/BudgetDashboard'
 import { Route as IndexRouteImport } from './routes/index'
 
 const SignupRoute = SignupRouteImport.update({
@@ -35,6 +36,11 @@ const NewUserpageRoute = NewUserpageRouteImport.update({
   path: '/NewUserpage',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BudgetDashboardRoute = BudgetDashboardRouteImport.update({
+  id: '/BudgetDashboard',
+  path: '/BudgetDashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,6 +49,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/BudgetDashboard': typeof BudgetDashboardRoute
   '/NewUserpage': typeof NewUserpageRoute
   '/about': typeof AboutRoute
   '/loginform': typeof LoginformRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/BudgetDashboard': typeof BudgetDashboardRoute
   '/NewUserpage': typeof NewUserpageRoute
   '/about': typeof AboutRoute
   '/loginform': typeof LoginformRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/BudgetDashboard': typeof BudgetDashboardRoute
   '/NewUserpage': typeof NewUserpageRoute
   '/about': typeof AboutRoute
   '/loginform': typeof LoginformRoute
@@ -65,14 +74,34 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/NewUserpage' | '/about' | '/loginform' | '/signup'
+  fullPaths:
+    | '/'
+    | '/BudgetDashboard'
+    | '/NewUserpage'
+    | '/about'
+    | '/loginform'
+    | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/NewUserpage' | '/about' | '/loginform' | '/signup'
-  id: '__root__' | '/' | '/NewUserpage' | '/about' | '/loginform' | '/signup'
+  to:
+    | '/'
+    | '/BudgetDashboard'
+    | '/NewUserpage'
+    | '/about'
+    | '/loginform'
+    | '/signup'
+  id:
+    | '__root__'
+    | '/'
+    | '/BudgetDashboard'
+    | '/NewUserpage'
+    | '/about'
+    | '/loginform'
+    | '/signup'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BudgetDashboardRoute: typeof BudgetDashboardRoute
   NewUserpageRoute: typeof NewUserpageRoute
   AboutRoute: typeof AboutRoute
   LoginformRoute: typeof LoginformRoute
@@ -109,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewUserpageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/BudgetDashboard': {
+      id: '/BudgetDashboard'
+      path: '/BudgetDashboard'
+      fullPath: '/BudgetDashboard'
+      preLoaderRoute: typeof BudgetDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -121,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BudgetDashboardRoute: BudgetDashboardRoute,
   NewUserpageRoute: NewUserpageRoute,
   AboutRoute: AboutRoute,
   LoginformRoute: LoginformRoute,

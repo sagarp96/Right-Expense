@@ -6,6 +6,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/lib/superbase";
 import {
   Popover,
   PopoverContent,
@@ -14,7 +16,7 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
+  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -29,8 +31,19 @@ const formSchema = z.object({
 });
 
 export function NewBudgetForm() {
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  const { user } = useAuth();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { error } = await supabase.from("user_budgets").insert({
+      user_id: user.id,
+      budget_amount: values.BudgetInput,
+      budget_start_date: values.BudgetStartDate,
+    });
+
+    if (error) {
+      console.log(error.message);
+    } else {
+      console.log(values, "Submitted to Table");
+    }
   }
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
@@ -100,7 +113,7 @@ export function NewBudgetForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Start My Budget</Button>
       </form>
     </Form>
   );

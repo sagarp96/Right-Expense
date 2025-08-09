@@ -35,7 +35,7 @@ export function LoginForm({
       } else {
         console.log("SignIn Success");
         toast.success("Successfully Login!");
-        navigate({ to: "/NewUserpage" });
+        navigate({ to: "/BudgetDashboard" });
       }
     } catch (error) {
       console.log("expected error", error);
