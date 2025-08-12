@@ -4,8 +4,9 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/lib/superbase";
-import { useTransactiondata } from "@/hooks/GetTransactionDetails";
-import { useEffect } from "react"; // Uncomment this
+// import { useTransactiondata } from "@/hooks/GetTransactionDetails";
+// import { useEffect } from "react"; // Uncomment this
+import { categories } from "@/lib/Data/Categories_Data";
 
 import {
   Select,
@@ -34,9 +35,21 @@ const formSchema = z.object({
   categories: z.string(),
 });
 
+const categoriesRender = categories.map((category) => {
+  return (
+    <SelectItem
+      value={category.name}
+      className={`${category.color} bg-amber-100 opacity-80`}
+    >
+      <category.icon />
+      {category.name}
+    </SelectItem>
+  );
+});
+
 export function NewTransactionForm() {
-  const { user, loading } = useAuth();
-  const { GetTransactionData } = useTransactiondata();
+  const { user } = useAuth();
+  // const { GetTransactionData } = useTransactiondata();
 
   //   useEffect(() => {
   //     if (user?.id && !loading) {
@@ -48,15 +61,14 @@ export function NewTransactionForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { error } = await supabase.from("transactions").insert({
       user_id: user.id,
-      amount: values.TransactionAmount,
-      transaction_name: values.TransactionName,
-      description: values.Notes,
-      category: values.categories,
+      Amount: values.TransactionAmount,
+      Name: values.TransactionName,
+      Description: values.Notes,
+      Category: values.categories,
     });
     if (error) {
       console.log(error.message);
     }
-    GetTransactionData();
   }
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {},
@@ -120,11 +132,7 @@ export function NewTransactionForm() {
                     <SelectValue placeholder="Select a verified email to display" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="Food">Food</SelectItem>
-                  <SelectItem value="Bills">Bills</SelectItem>
-                  <SelectItem value="Subscription">Subscription</SelectItem>
-                </SelectContent>
+                <SelectContent>{categoriesRender}</SelectContent>
               </Select>
               <FormDescription>Categories</FormDescription>
               <FormMessage />

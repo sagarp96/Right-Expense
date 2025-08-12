@@ -1,38 +1,27 @@
-import { useState, useEffect } from "react"; // Uncomment this
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/superbase";
 import { useAuth } from "@/hooks/useAuth";
 
-export function useTransactiondata() {
-  const { user } = useAuth();
-  const [transactions, setTransactions] = useState(null); // Add this state
-  const [isLoading, setIsLoading] = useState(false); // Add loading state
-  const [error, setError] = useState<string | null>(null); // Add error state
+export function useTransactions() {
+  const { user, loading: authLoading } = useAuth();
 
-  const GetTransactionData = async () => {
-    setIsLoading(true); // Set loading to true
-    setError(null); // Clear previous errors
-
+  async function getTransactions() {
+    if (!user?.id) {
+      throw new Error("User not authenticated");
+    }
     const { data, error } = await supabase
       .from("transactions")
-      .select("*")
+      .select("Amount, Name, Description, Date, Category")
       .eq("user_id", user.id);
-
     if (error) {
-      setError(error.message); // Update error state
-      setTransactions(null);
-    } else {
-      setTransactions(data); // Update transactions state
-      console.log(data);
+      console.log(error.message);
     }
-
-    setIsLoading(false); // Set loading to false
+    console.log(data);
     return data;
-  };
-
-  return {
-    GetTransactionData,
-    transactions,
-    isLoading,
-    error,
-  }; // Return all state values
+  }
+  return useQuery({
+    queryKey: ["transactions", user?.id],
+    queryFn: getTransactions,
+    enabled: !!user?.id && !authLoading,
+  });
 }

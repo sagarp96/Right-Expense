@@ -1,9 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/useAuth";
-import MonthsDropdown from "@/components/ui/MonthDropdown";
+// import MonthsDropdown from "@/components/ui/MonthDropdown";
 import LogoutBTN from "@/components/ui/Logout";
 import { NewTransactionForm } from "@/components/ui/New_TransactionFRM";
+import FetchTransactionData from "@/components/Transactions_Table";
+// import { ChartPieLabelList } from "@/components/Refrence_Chart";
+import TransactionChart from "@/components/Transaction_Chart";
+
 export const Route = createFileRoute("/BudgetDashboard")({
   component: BudgetDashboard,
 });
@@ -20,9 +24,10 @@ export default function BudgetDashboard() {
     navigate({ to: "/" });
     return null;
   }
-
   return (
     <>
+      <TransactionChart />
+      <FetchTransactionData />
       <LogoutBTN />
       <div className="h-screen flex  items-center justify-center flex-col flex-wrap gap-10">
         Budget Overview

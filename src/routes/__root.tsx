@@ -1,7 +1,5 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { LoginForm } from "@/routes/loginform";
-import { SignupForm } from "@/routes/signup";
 
 export const Route = createRootRoute({
   component: () => (
