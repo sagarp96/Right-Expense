@@ -7,7 +7,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/superbase";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, createFileRoute, Link } from "@tanstack/react-router";
-
+import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/signup")({
   component: SignupForm,
 });
@@ -16,6 +16,7 @@ export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
+  const { user, loading } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const handleSignup = async (e) => {
@@ -35,12 +36,23 @@ export function SignupForm({
       } else {
         console.log("Signup Success");
         await navigate({ to: "/NewUserpage" });
-        toast.success("Successfully SignedIN!");
+        toast.success("Sign Up Successfull");
       }
     } catch (error) {
       console.log("expected error", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+  const handleGmailSignup = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/NewUserpage`,
+      },
+    });
+    if (error) {
+      console.log(error, "Error in Gmail-Login");
     }
   };
 
@@ -99,7 +111,11 @@ export function SignupForm({
             Or continue with
           </span>
         </div>
-        <Button variant="outline" className="w-full">
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={handleGmailSignup}
+        >
           <SiGmail />
           Gmail
         </Button>

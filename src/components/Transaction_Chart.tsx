@@ -1,15 +1,10 @@
 import { categories } from "@/lib/Data/Categories_Data";
-import { useTransactions } from "@/hooks/GetTransactionDetails";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { TrendingUp } from "lucide-react";
+import { useTransactions } from "@/hooks/Querry_Data";
 import { LabelList, Pie, PieChart } from "recharts";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -19,20 +14,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "A pie chart with a label list";
-
-const queryClient = new QueryClient();
-
 export default function TransactionChart() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <RenderChart />
-      <ReactQueryDevtools initialIsOpen={true} />
-    </QueryClientProvider>
-  );
-}
-
-export function RenderChart() {
   const { data, isPending, error } = useTransactions();
 
   if (isPending) return "Loading...";
@@ -51,7 +33,7 @@ export function RenderChart() {
     const getchartData = () => {
       for (let i = 0; i < data.length; i++) {
         chartData.push({
-          name: data[i].Name,
+          name: data[i].Category,
           amount: data[i].Amount,
           fill: getcategoryColor(data[i].Category),
         });
@@ -61,8 +43,8 @@ export function RenderChart() {
 
     const chartConfigData = () => {
       for (let i = 0; i < data.length; i++) {
-        chartConfig[data[i].Name] = {
-          label: data[i].Name,
+        chartConfig[data[i].Category] = {
+          label: data[i].Category,
           color: getcategoryColor(data[i].Category),
         };
       }
@@ -88,15 +70,15 @@ export function RenderChart() {
 
   console.log(data, "this is the chart data");
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col ">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Label List</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Spendings Categories</CardTitle>
+        <CardDescription>Categories Distribution</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="[&_.recharts-text]:fill-background mx-auto aspect-square max-h-[250px]"
+          className="mx-auto h-[280px] w-full"
         >
           <PieChart>
             <ChartTooltip
@@ -116,14 +98,6 @@ export function RenderChart() {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   );
 }

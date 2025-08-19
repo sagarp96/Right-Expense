@@ -3,9 +3,10 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-  getPaginationRowModel,
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+
 import {
   Table,
   TableBody,
@@ -17,18 +18,64 @@ import {
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  APIdata: TData[];
 }
+import { DeleteTransaction } from "@/hooks/Mutate_Data";
 
-export function DataTable<TData, TValue>({
+export function DataTable_V2<TData, TValue>({
   columns,
-  data,
+  APIdata,
 }: DataTableProps<TData, TValue>) {
+  const [data, setData] = useState(() => APIdata);
+  const [editedRows, setEditedRows] = useState({});
+  const [originalData, setOriginalData] = useState(() => APIdata);
+  useEffect(() => {
+    setData(APIdata);
+    setOriginalData(APIdata);
+  }, [APIdata]);
+
+  const deleteTransaction = DeleteTransaction();
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    meta: {
+      editedRows,
+      setEditedRows,
+      revertData: (rowIndex: number, revert: boolean) => {
+        if (revert) {
+          setData((old) =>
+            old.map((row, index) =>
+              index === rowIndex ? originalData[rowIndex] : row
+            )
+          );
+        } else {
+          setOriginalData((old) =>
+            old.map((row, index) => (index === rowIndex ? data[rowIndex] : row))
+          );
+        }
+      },
+      updateData: (rowIndex: number, columnId: string, value: string) => {
+        setData((old) =>
+          old.map((row, index) => {
+            if (index === rowIndex) {
+              return {
+                ...old[rowIndex],
+                [columnId]: value,
+              };
+            }
+            return row;
+          })
+        );
+      },
+      removeRow: (rowIndex: number) => {
+        setData((old) => old.filter((_, index) => index !== rowIndex));
+        setOriginalData((old) => old.filter((_, index) => index !== rowIndex));
+        const rowID = data[rowIndex].id;
+        console.log(rowID);
+        deleteTransaction.mutate(rowID);
+      },
+    },
   });
 
   return (

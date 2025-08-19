@@ -23,7 +23,7 @@ export default function LogoutButton() {
   };
   return (
     <div className="sticky flex place-content-end">
-      <Button size="sm" onClick={handleLogout} className="rounded-full">
+      <Button size="sm" onClick={handleLogout} className="rounded-full m-1">
         <CiLogout /> Logout
       </Button>
     </div>

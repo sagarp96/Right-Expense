@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/useAuth";
-// import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+import { Play } from "lucide-react";
 import { NewBudgetForm } from "@/components/NewbudgetForm";
 import LogoutBTN from "@/components/ui/Logout";
 export const Route = createFileRoute("/NewUserpage")({
@@ -25,17 +25,19 @@ export default function WelcomePage() {
   return (
     <>
       <LogoutBTN />
-      <div className="h-screen flex  items-center justify-center flex-col flex-wrap gap-10">
-        Start Your Budget
-        <Button size="lg" className="rounded-full">
-          Start Now
-        </Button>
+      <div>
+        <Toaster />
       </div>
-      <div className="outline-2 outline-offset-0 ... flex items-center justify-center gap-5 flex-col flex-wrap">
-        <div className="flex  items-center justify-center flex-col flex-wrap gap-10">
-          Plan Your Budget
+      <div className=" h-screen flex  items-center justify-center flex-wrap gap-5 flex-col ">
+        <div className="flex  items-center justify-center flex-wrap gap-5 flex-row ">
+          <Play />
+          <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
+            Start you Budget
+          </h1>
         </div>
-        <NewBudgetForm />
+        <div>
+          <NewBudgetForm />
+        </div>
       </div>
     </>
   );

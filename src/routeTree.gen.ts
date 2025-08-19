@@ -13,6 +13,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginformRouteImport } from './routes/loginform'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as NewUserpageRouteImport } from './routes/NewUserpage'
+import { Route as CheckUserRouteImport } from './routes/CheckUser'
 import { Route as BudgetDashboardRouteImport } from './routes/BudgetDashboard'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -36,6 +37,11 @@ const NewUserpageRoute = NewUserpageRouteImport.update({
   path: '/NewUserpage',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckUserRoute = CheckUserRouteImport.update({
+  id: '/CheckUser',
+  path: '/CheckUser',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BudgetDashboardRoute = BudgetDashboardRouteImport.update({
   id: '/BudgetDashboard',
   path: '/BudgetDashboard',
@@ -50,6 +56,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/BudgetDashboard': typeof BudgetDashboardRoute
+  '/CheckUser': typeof CheckUserRoute
   '/NewUserpage': typeof NewUserpageRoute
   '/about': typeof AboutRoute
   '/loginform': typeof LoginformRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/BudgetDashboard': typeof BudgetDashboardRoute
+  '/CheckUser': typeof CheckUserRoute
   '/NewUserpage': typeof NewUserpageRoute
   '/about': typeof AboutRoute
   '/loginform': typeof LoginformRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/BudgetDashboard': typeof BudgetDashboardRoute
+  '/CheckUser': typeof CheckUserRoute
   '/NewUserpage': typeof NewUserpageRoute
   '/about': typeof AboutRoute
   '/loginform': typeof LoginformRoute
@@ -77,6 +86,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/BudgetDashboard'
+    | '/CheckUser'
     | '/NewUserpage'
     | '/about'
     | '/loginform'
@@ -85,6 +95,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/BudgetDashboard'
+    | '/CheckUser'
     | '/NewUserpage'
     | '/about'
     | '/loginform'
@@ -93,6 +104,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/BudgetDashboard'
+    | '/CheckUser'
     | '/NewUserpage'
     | '/about'
     | '/loginform'
@@ -102,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BudgetDashboardRoute: typeof BudgetDashboardRoute
+  CheckUserRoute: typeof CheckUserRoute
   NewUserpageRoute: typeof NewUserpageRoute
   AboutRoute: typeof AboutRoute
   LoginformRoute: typeof LoginformRoute
@@ -138,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewUserpageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/CheckUser': {
+      id: '/CheckUser'
+      path: '/CheckUser'
+      fullPath: '/CheckUser'
+      preLoaderRoute: typeof CheckUserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/BudgetDashboard': {
       id: '/BudgetDashboard'
       path: '/BudgetDashboard'
@@ -158,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BudgetDashboardRoute: BudgetDashboardRoute,
+  CheckUserRoute: CheckUserRoute,
   NewUserpageRoute: NewUserpageRoute,
   AboutRoute: AboutRoute,
   LoginformRoute: LoginformRoute,
