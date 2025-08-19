@@ -22,18 +22,6 @@ export function LoginForm({
   const { data: CheckNewuser } = CheckNewUser();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  // const [redirectPage, setredirectPage] = useState("");
-  // useEffect(() => {
-  //   const redirectPage = () => {
-  //     console.log(CheckNewuser?.length, "New-UserCheck");
-  //     if (CheckNewuser?.length) {
-  //       return setredirectPage("BudgetDashboard");
-  //     } else {
-  //       return setredirectPage("NewUserpage");
-  //     }
-  //   };
-  //   redirectPage();
-  // }, [CheckNewuser?.length]);
 
   const handleSignup = async (e) => {
     setIsLoading(true);
