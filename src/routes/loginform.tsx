@@ -23,7 +23,7 @@ export function LoginForm({
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSignup = async (e) => {
+  async function handleSignup(e) {
     setIsLoading(true);
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -47,7 +47,7 @@ export function LoginForm({
     } finally {
       setIsLoading(false);
     }
-  };
+  }
   const handleGmailSignup = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
