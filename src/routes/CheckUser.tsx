@@ -34,6 +34,6 @@ export function RedirectTopages() {
   }, [CheckNewuser, isLoading, navigate]);
 
   if (isLoading) {
-    return <div>redirecting</div>;
+    return <div>Redirecting</div>;
   }
 }

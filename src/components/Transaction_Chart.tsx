@@ -64,11 +64,11 @@ export default function TransactionChart() {
     chartConfigData();
     getchartData();
 
-    console.log(chartData);
-    console.log(chartConfig, "this is the CONFIGS data");
+    // console.log(chartData);
+    // console.log(chartConfig, "this is the CONFIGS data");
   }
 
-  console.log(data, "this is the chart data");
+  // console.log(data, "this is the chart data");
   return (
     <Card className="flex flex-col ">
       <CardHeader className="items-center pb-0">

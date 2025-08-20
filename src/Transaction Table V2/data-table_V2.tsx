@@ -16,13 +16,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-interface DataTableProps<TData, TValue> {
+import { type Transaction } from "./columnsdefV2";
+
+interface DataTableProps<TData extends Transaction, TValue> {
   columns: ColumnDef<TData, TValue>[];
   APIdata: TData[];
 }
 import { DeleteTransaction } from "@/hooks/Mutate_Data";
-
-export function DataTable_V2<TData, TValue>({
+import { UpdateTransactionDB } from "@/hooks/Mutate_Data";
+export function DataTable_V2<TData extends Transaction, TValue>({
   columns,
   APIdata,
 }: DataTableProps<TData, TValue>) {
@@ -35,6 +37,7 @@ export function DataTable_V2<TData, TValue>({
   }, [APIdata]);
 
   const deleteTransaction = DeleteTransaction();
+  const updateTransaction = UpdateTransactionDB();
   const table = useReactTable({
     data,
     columns,
@@ -55,25 +58,46 @@ export function DataTable_V2<TData, TValue>({
           );
         }
       },
+      removeRow: (rowIndex: number) => {
+        setData((old) => old.filter((_, index) => index !== rowIndex));
+        setOriginalData((old) => old.filter((_, index) => index !== rowIndex));
+        const rowID = data[rowIndex].id;
+        deleteTransaction.mutate(rowID);
+      },
       updateData: (rowIndex: number, columnId: string, value: string) => {
+        const rowID = data[rowIndex].id;
+        
+        // First update the local state
         setData((old) =>
           old.map((row, index) => {
             if (index === rowIndex) {
               return {
-                ...old[rowIndex],
-                [columnId]: value,
+                ...row,
+                [columnId]: columnId === 'Amount' ? Number(value) : value,
               };
             }
             return row;
           })
         );
-      },
-      removeRow: (rowIndex: number) => {
-        setData((old) => old.filter((_, index) => index !== rowIndex));
-        setOriginalData((old) => old.filter((_, index) => index !== rowIndex));
-        const rowID = data[rowIndex].id;
-        console.log(rowID);
-        deleteTransaction.mutate(rowID);
+        
+        // Get current values and update the specific column that changed
+        let rowAmount = data[rowIndex].Amount;
+        let rowName = data[rowIndex].Name;
+        let rowNotes = data[rowIndex].Description;
+        let rowCategory = data[rowIndex].Category;
+        
+        // Update the specific field that was edited
+        // if (columnId === 'Amount') rowAmount = Number(value);
+        // if (columnId === 'Name') rowName = value;
+        // if (columnId === 'Description') rowNotes = value;
+        // if (columnId === 'Category') rowCategory = value;
+        updateTransaction.mutate( {
+          id: String(rowID),
+          amount: rowAmount,
+          name: rowName,
+          notes: rowNotes,
+          category: rowCategory,
+        });
       },
     },
   });

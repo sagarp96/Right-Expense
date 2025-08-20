@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/superbase";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -87,5 +87,35 @@ export const UpdateBudgetDB = () => {
         queryKey: ["user_budgets", user?.id],
       });
     },
+  });
+};
+
+export const UpdateTransactionDB = () => {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+  return useMutation({
+    mutationFn: async ({ id, amount, name, notes, category }: { id: string; amount: number; name: string; notes: string; category: string }) => {
+      
+      const { data, error } = await supabase
+        .from("transactions")
+        .update({ Amount: amount, Name: name, Description: notes, Category: category })
+        .eq("id", id)
+        .select();
+
+      if (error) {
+        throw error;
+      }
+      
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["transactions", user?.id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["TotalSpentAamount", user?.id],
+      });
+    },
+  
   });
 };

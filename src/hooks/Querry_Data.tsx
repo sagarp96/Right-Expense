@@ -16,7 +16,6 @@ export function useTransactions() {
     if (error) {
       console.log(error.message);
     }
-    console.log(data);
     return data;
   }
   return useQuery({
@@ -39,7 +38,6 @@ export function GetUserBudget() {
     if (error) {
       console.log(error.message);
     }
-    console.log(data, "Total-Budget");
     return data;
   }
   return useQuery({
@@ -64,7 +62,7 @@ export function GetTotalSpent() {
     if (error) {
       console.log(error.message);
     }
-    console.log(data, "Total Spent Amount");
+
     return sum;
   }
   return useQuery({
@@ -87,7 +85,6 @@ export function CheckNewUser() {
     if (error) {
       console.log(error.message);
     }
-    console.log(data, "Total-Budget");
     return data;
   }
   return useQuery({
@@ -96,3 +93,4 @@ export function CheckNewUser() {
     enabled: !!user?.id && !authLoading,
   });
 }
+

@@ -17,6 +17,7 @@ const categoriesRender = categories.map((category) => {
 });
 
 export type Transaction = {
+  id: string | number;
   Amount: number;
   Name: string;
   Description: string;
@@ -28,34 +29,51 @@ const EditCell = ({ row, table }) => {
 
   const setEditedRows = (e: React.MouseEvent<HTMLButtonElement>) => {
     const elName = e.currentTarget.name;
-    meta?.setEditedRows((old: []) => ({
+    meta?.setEditedRows((old: any) => ({
       ...old,
       [row.id]: !old[row.id],
     }));
-    if (elName !== "edit") {
-      meta?.revertData(row.index, e.currentTarget.name === "cancel");
+    if (elName === "cancel") {
+      meta?.revertData(row.index, true);
     }
   };
   const removeRow = () => {
     meta?.removeRow(row.index, row.id);
   };
+  const updateRow = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const elName = e.currentTarget.name;
+    meta?.updateData(row.index, row.id, row.Amount);
+    meta?.updateData(row.index, row.id, row.Name);
+    meta?.updateData(row.index, row.id, row.Description);
+    meta?.updateData(row.index, row.id, row.Date);
+    meta?.updateData(row.index, row.id, row.Category);
+
+    if(elName === "done"){
+      // Exit edit mode after saving
+      meta?.setEditedRows((old: any) => ({
+        ...old,
+        [row.id]: false,
+      }));
+    }
+  };
   return meta?.editedRows[row.id] ? (
     <>
-      {/* <button onClick={setEditedRows} name="cancel">
+      <button onClick={setEditedRows} name="cancel">
         <CircleX color="#FF0000"></CircleX>
       </button>{" "}
-      <button onClick={setEditedRows} name="done">
+      <button onClick={updateRow} name="done">
         <CircleCheck color="#00FF00"></CircleCheck>
-      </button> */}
+      </button>
     </>
   ) : (
     <div className="flex gap-2">
-      <button onClick={removeRow} name="done">
+      <button onClick={removeRow} name="remove">
         <Trash color="#FF0000"></Trash>
       </button>
-      {/* <button onClick={setEditedRows} name="edit">
+      <button onClick={setEditedRows} name="edit">
         <SquarePen />
-      </button> */}
+      </button>
     </div>
   );
 };

@@ -49,7 +49,7 @@ export function UpdateBudget({ HandleupdateBudget }) {
           <Button
             className="rounded-full bg-green-400 text-black"
             variant="outline"
-            size="lg"
+            size="sm"
           >
             <GrUpdate /> Update Budget
           </Button>

@@ -69,7 +69,7 @@ export function AddNewTransaction() {
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            size="lg"
+            size="sm"
             className="rounded-full bg-green-600 text-black"
           >
             <TicketPlus />
