@@ -33,6 +33,7 @@ const formSchema = z.object({
 export function UpdateBudget({ HandleupdateBudget }) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     HandleupdateBudget(values.UpdateAmount);
+    form.reset();
   }
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {},
@@ -76,7 +77,9 @@ export function UpdateBudget({ HandleupdateBudget }) {
             />
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline" onClick={() => form.reset()}>
+                  Cancel
+                </Button>
               </DialogClose>
               <DialogClose>
                 <Button type="submit">Save changes</Button>

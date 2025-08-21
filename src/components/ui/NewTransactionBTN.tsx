@@ -55,6 +55,7 @@ export function AddNewTransaction() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     AddnewTranactionDB.mutate(values);
     toast.success("Transaction Added");
+    form.reset();
   }
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {},
@@ -78,8 +79,8 @@ export function AddNewTransaction() {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Update Your Budget</DialogTitle>
-            <DialogDescription>Enter New Budget Amount</DialogDescription>
+            <DialogTitle>Add New Transaction</DialogTitle>
+            <DialogDescription>Enter New Transaction Details</DialogDescription>
           </DialogHeader>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -137,7 +138,7 @@ export function AddNewTransaction() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a verified email to display" />
+                        <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>{categoriesRender}</SelectContent>
@@ -150,7 +151,9 @@ export function AddNewTransaction() {
 
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline" onClick={() => form.reset()}>
+                  Cancel
+                </Button>
               </DialogClose>
               <DialogClose>
                 <Button type="submit">Add Transaction</Button>
