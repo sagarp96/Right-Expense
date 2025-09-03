@@ -94,18 +94,34 @@ export const UpdateTransactionDB = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   return useMutation({
-    mutationFn: async ({ id, amount, name, notes, category }: { id: string; amount: number; name: string; notes: string; category: string }) => {
-      
+    mutationFn: async ({
+      id,
+      amount,
+      name,
+      notes,
+      category,
+    }: {
+      id: string;
+      amount: number;
+      name: string;
+      notes: string;
+      category: string;
+    }) => {
       const { data, error } = await supabase
         .from("transactions")
-        .update({ Amount: amount, Name: name, Description: notes, Category: category })
+        .update({
+          Amount: amount,
+          Name: name,
+          Description: notes,
+          Category: category,
+        })
         .eq("id", id)
         .select();
 
       if (error) {
         throw error;
       }
-      
+
       return data;
     },
     onSuccess: () => {
@@ -116,6 +132,5 @@ export const UpdateTransactionDB = () => {
         queryKey: ["TotalSpentAamount", user?.id],
       });
     },
-  
   });
 };

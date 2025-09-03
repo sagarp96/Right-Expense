@@ -93,4 +93,3 @@ export function CheckNewUser() {
     enabled: !!user?.id && !authLoading,
   });
 }
-
